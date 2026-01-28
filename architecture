@@ -3,3 +3,100 @@ system-diagram
 evaluation-Flow
 
 system-architecture.md
+# TrustLayer AI — System Architecture
+
+## Purpose
+TrustLayer AI provides an enterprise “trust layer” for AI systems by collecting AI interactions (prompts, outputs, metadata), evaluating output reliability and risk, detecting drift, and producing dashboards + audit-ready compliance reports.
+
+## Key Design Principles
+- **Sidecar, not inline:** TrustLayer observes AI interactions without blocking inference (low latency impact).
+- **Auditability by default:** Every interaction has a traceable evaluation record.
+- **Multi-layer evaluation:** Rules + LLM-as-Judge + Drift detection.
+- **Enterprise-ready metadata:** Model/version, business context, environment, and policy flags.
+
+---
+
+## High-Level Architecture (Sidecar Observability)
+
+Client AI Apps (Chatbots / Agents / Internal AI APIs)
+        |
+        |  (1) log prompt+response+metadata
+        v
+TrustLayer SDK (Python/JS)
+        |
+        |  (2) send event payload (async)
+        v
+Ingestion Gateway (API / Queue)
+        |
+        |  (3) persist raw events
+        v
+Metadata Store (Postgres) + Object Store (S3)
+        |
+        |  (4) run evaluations
+        v
+Evaluation Engine
+  - Rule Engine (deterministic checks)
+  - LLM-as-Judge (semantic evaluation)
+  - Drift Detection (embedding + statistics)
+        |
+        |  (5) write evaluation results + trust score
+        v
+Audit Logs + Scoring Index
+        |
+        |  (6) visualize + export
+        v
+Dashboards (Ops + Exec) + Compliance Reports (PDF)
+
+---
+
+## Core Components
+
+### 1) TrustLayer SDK
+Captures:
+- prompt, response, model, timestamp
+- environment (prod/stage), app/service name
+- business context (use-case, team, region)
+- optional: user role (NOT PII)
+
+### 2) Ingestion Gateway
+Responsibilities:
+- validate payload schema
+- rate limit + auth (later)
+- enqueue/store events
+
+### 3) Metadata Store
+Stores:
+- interaction records
+- evaluation outputs
+- trust scores
+- audit trail
+
+### 4) Evaluation Engine
+Runs:
+- **Rule-based validation**
+- **LLM-as-Judge**
+- **Drift detection**
+
+### 5) Dashboards & Reports
+Outputs:
+- reliability trends
+- high-risk model list
+- flagged outputs
+- compliance report export
+
+---
+
+## Non-Goals for MVP (Intentionally Out of Scope)
+- Model training / fine-tuning
+- Full enterprise SSO & RBAC
+- Billing
+- Deep integrations (ServiceNow/Jira) — later
+
+---
+
+## MVP Success Criteria
+- Can ingest AI interactions reliably (demo + real sample)
+- Produces trust scores and flags risky outputs
+- Detects basic drift over time
+- Generates an audit-ready report from stored evidence
+
