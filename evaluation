@@ -5,3 +5,103 @@ drift_detection.py
 scoring_engine.py
 
 evaluation_overview.md
+# TrustLayer AI — Evaluation Overview
+
+## Goal
+Convert raw AI interactions (prompt + output) into measurable reliability signals:
+- trust score
+- risk flags
+- drift signals
+- audit-ready evidence
+
+TrustLayer uses a **multi-layer evaluation pipeline** to avoid relying on any single method.
+
+---
+
+## Evaluation Pipeline (3 Layers)
+
+### Layer 1 — Rule Engine (Deterministic)
+**Purpose:** Fast checks that are consistent and explainable.
+
+Examples:
+- empty/too short output
+- disallowed terms / policy violations
+- sensitive data leakage pattern detection (basic)
+- “overconfidence” language (e.g., “100% sure”, “guaranteed”)
+
+Output:
+- `rule_flags[]`
+- `rule_score` (0–1)
+
+---
+
+### Layer 2 — LLM-as-Judge (Semantic Evaluation)
+**Purpose:** Understand meaning, factuality, completeness, and uncertainty.
+
+The LLM judge evaluates the AI response using a structured rubric:
+- accuracy / plausibility (0–1)
+- completeness (0–1)
+- uncertainty handling (0–1)
+- safety (0–1)
+- explanation quality (0–1)
+
+Output:
+- `judge_scores{}`
+- `judge_flags[]`
+- `judge_summary` (short text explanation)
+
+---
+
+### Layer 3 — Drift Detection (Behavior Change Over Time)
+**Purpose:** Detect when a model’s behavior degrades or shifts.
+
+Techniques (MVP):
+- embedding similarity vs baseline
+- change in average trust score
+- increase in specific flag types
+
+Output:
+- `drift_score` (0–1)
+- `drift_alert` (true/false)
+- `drift_notes`
+
+---
+
+## Trust Score (MVP Formula)
+
+Trust Score combines signals into a single number.
+
+Example formula:
+TrustScore =
+(0.40 * Accuracy)
+(0.25 * Completeness)
+(0.15 * UncertaintyHandling)
+(0.10 * Consistency)
+(0.10 * Safety)
+(0.10 * RiskPenalty)
+
+
+Where:
+- `RiskPenalty` increases with critical flags (policy violation, sensitive leakage, hallucination).
+- `Consistency` can be approximated (MVP) by comparing the response embedding to prior similar prompts.
+
+---
+
+## Risk Flags (MVP)
+- `HALLUCINATION_RISK`
+- `SENSITIVE_DATA_RISK`
+- `POLICY_VIOLATION_RISK`
+- `LOW_CONFIDENCE`
+- `DRIFT_ALERT`
+
+---
+
+## MVP Output Contract (What gets stored)
+For each interaction:
+- input metadata (model, env, use_case, timestamp)
+- rule flags + score
+- judge scores + flags + summary
+- drift scores + alert
+- final trust score (0–100)
+- audit log reference
+
