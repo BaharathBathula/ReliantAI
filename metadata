@@ -1,1 +1,76 @@
 interaction_schema.md
+# TrustLayer AI — Interaction Schema (MVP)
+
+## Purpose
+A consistent schema ensures:
+- auditability
+- reproducibility
+- analytics and reporting
+- compliance evidence
+
+---
+
+## Entity: InteractionEvent
+
+### Required Fields
+| Field | Type | Example | Notes |
+|------|------|---------|------|
+| interaction_id | string | "evt_2026_01_27_0001" | unique id |
+| timestamp_utc | string | "2026-01-27T21:10:00Z" | ISO-8601 |
+| model_provider | string | "openai" | openai/bedrock/azure |
+| model_name | string | "gpt-4o-mini" | model id |
+| model_version | string | "2026-01" | optional |
+| environment | string | "prod" | prod/stage/dev |
+| application | string | "claims_copilot" | app/service name |
+| use_case | string | "insurance_claims" | business use-case |
+| prompt_text | string | "..." | store raw only for demo; later hash/tokenize |
+| response_text | string | "..." | store raw only for demo; later redaction |
+
+### Optional Context Fields
+| Field | Type | Example |
+|------|------|---------|
+| user_role | string | "analyst" |
+| region | string | "US" |
+| request_id | string | "req_abc123" |
+| tags | array[string] | ["finance", "high_risk"] |
+
+---
+
+## Entity: EvaluationResult
+
+### Rule Engine
+| Field | Type | Example |
+|------|------|---------|
+| rule_score | float | 0.85 |
+| rule_flags | array[string] | ["OVERCONFIDENCE_LANGUAGE"] |
+
+### LLM Judge
+| Field | Type | Example |
+|------|------|---------|
+| judge_accuracy | float | 0.72 |
+| judge_completeness | float | 0.80 |
+| judge_uncertainty | float | 0.60 |
+| judge_safety | float | 0.95 |
+| judge_flags | array[string] | ["HALLUCINATION_RISK"] |
+| judge_summary | string | "Response may contain unsupported claims..." |
+
+### Drift
+| Field | Type | Example |
+|------|------|---------|
+| drift_score | float | 0.30 |
+| drift_alert | boolean | false |
+| drift_notes | string | "No significant shift vs baseline." |
+
+### Final Score
+| Field | Type | Example |
+|------|------|---------|
+| trust_score_0_100 | int | 78 |
+| severity | string | "medium" | low/medium/high/critical |
+
+---
+
+## Audit Requirements (MVP)
+- Store evaluation timestamps
+- Store evaluation engine version (later)
+- Keep immutable logs for evidence (later)
+
