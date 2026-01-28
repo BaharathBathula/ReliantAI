@@ -50,3 +50,25 @@ Validate outputs using rules + AI evaluator
 Detect anomalies
 Show dashboards
 Auto-generate compliance reports (PDF)
+
+## How TrustLayer Evaluates AI Reliability
+
+TrustLayer AI evaluates AI outputs using a **multi-layer pipeline** designed for enterprise auditability:
+
+1) **Rule Engine (Deterministic)**
+- Fast checks for policy violations, sensitive leakage patterns, empty/low-quality outputs, and overconfidence language.
+
+2) **LLM-as-Judge (Semantic Evaluation)**
+- A structured rubric scores accuracy/plausibility, completeness, uncertainty handling, safety, and explanation quality.
+
+3) **Drift Detection (Behavior Over Time)**
+- Detects changes in reliability trends and embedding-based shifts compared to a baseline.
+
+### Trust Score (MVP)
+TrustLayer produces a final **Trust Score (0–100)** per interaction by combining:
+- judge metrics (accuracy, completeness, uncertainty, safety)
+- deterministic rule flags
+- drift alerts
+
+This provides a single reliability signal for dashboards and compliance reporting.
+
