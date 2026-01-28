@@ -1,1 +1,17 @@
 trustlayer_logger.py
+
+What it captures:
+Prompt
+Model name
+Timestamp
+Token count
+Output
+Context metadata
+
+trustlayer.log(
+    model="gpt-4",
+    prompt=prompt,
+    response=response,
+    user_context="claims_agent",
+    business_unit="insurance"
+)
