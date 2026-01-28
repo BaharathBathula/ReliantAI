@@ -24,6 +24,23 @@ An AI Governance + Reliability Platform that:
 ✔ Provides real-time AI risk scoring
 
 **Architecture**: 
+Client AI Apps (Chatbots / AI Agents / APIs)
+                |
+        TrustLayer SDK
+                |
+        Ingestion Gateway
+                |
+     -----------------------
+     |                     |
+Evaluation Engine     Metadata Store
+     |                     |
+Rule Engine         Postgres / S3
+LLM Judge                |
+Statistical Models       |
+     |                     |
+   Scoring Engine     Audit Logs
+                |
+        Dashboards & Reports
 
 
 **MVP scope**
