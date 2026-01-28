@@ -1,55 +1,85 @@
 # ReliantAI
-A production-grade framework for monitoring, governing, and assuring AI/ML systems across their lifecycle. This repository provides reference architectures, governance controls, reliability metrics, policy enforcement workflows, and observability patterns to help enterprises deploy trustworthy, compliant, and resilient AI systems at scale.
 
-**Problem**:
-Companies are deploying:
-LLMs
-ML pipelines
-AI agents
-But they don’t know:
-If AI outputs are reliable
-If models are compliant
-If AI decisions are auditable
-If AI drift is happening
-If regulators will penalize them
-There is NO Snowflake for AI governance yet.
+**ReliantAI** is a production-grade **AI Governance & Reliability Platform** that provides enterprises with a trust layer for monitoring, evaluating, and auditing AI/ML systems across their lifecycle.
 
-**Solution**:
-An AI Governance + Reliability Platform that:
+As organizations rapidly deploy **LLMs, ML pipelines, and AI agents**, ReliantAI ensures that AI systems remain **reliable, explainable, auditable, and compliant**—before failures impact customers, revenue, or regulators.
 
-✔ Monitors AI output quality
-✔ Detects hallucinations & drift
-✔ Tracks data lineage → model → output
-✔ Generates regulatory-ready reports
-✔ Provides real-time AI risk scoring
+---
 
-**Architecture**: 
-Client AI Apps (Chatbots / AI Agents / APIs)
-                |
-        TrustLayer SDK
-                |
-        Ingestion Gateway
-                |
-     -----------------------
-     |                     |
-Evaluation Engine     Metadata Store
-     |                     |
-Rule Engine         Postgres / S3
-LLM Judge                |
-Statistical Models       |
-     |                     |
-   Scoring Engine     Audit Logs
-                |
-        Dashboards & Reports
+## The Problem
+
+Enterprises are deploying AI systems at scale, but lack answers to critical questions:
+
+- Are AI outputs reliable and factually grounded?
+- Are models compliant with regulatory and internal policies?
+- Can AI decisions be audited and explained?
+- Is model behavior drifting over time?
+- What is the business and regulatory risk of AI failures?
+
+Existing tools focus on **model training or infrastructure**, but **there is no unified trust layer for AI governance and reliability**.
+
+> There is no “Snowflake for AI governance” — yet.
+
+---
+
+## The Solution
+
+ReliantAI provides an **AI Governance + Reliability Platform** that:
+
+- ✔ Continuously monitors AI output quality  
+- ✔ Detects hallucinations, risk signals, and behavioral drift  
+- ✔ Tracks lineage from **data → model → output**  
+- ✔ Generates audit- and regulator-ready compliance reports  
+- ✔ Produces real-time AI **Trust Scores** for operational and executive visibility  
+
+ReliantAI operates as a **sidecar observability platform**, ensuring minimal latency and zero disruption to inference workflows.
+
+---
+
+## High-Level Architecture
+Client AI Apps (Chatbots / AI Agents / Internal APIs)
+|
+ReliantAI SDK
+|
+Ingestion Gateway
+|
+-----------------------
+| |
+Evaluation Engine Metadata Store
+| |
+Rule Engine Postgres / S3
+LLM-as-Judge |
+Statistical Models |
+| |
+Trust Scoring Audit Logs
+|
+Dashboards & Compliance Reports
+
 
 
 **MVP scope**
-MVP Scope:
-Ingest logs from LLM calls (OpenAI, Bedrock, Azure)
-Validate outputs using rules + AI evaluator
-Detect anomalies
-Show dashboards
-Auto-generate compliance reports (PDF)
+
+---
+
+## MVP Scope
+
+The initial MVP focuses on demonstrating measurable AI trust and auditability:
+
+- Ingest AI interaction logs from:
+  - OpenAI
+  - AWS Bedrock
+  - Azure OpenAI
+- Evaluate outputs using:
+  - Deterministic rules
+  - LLM-based semantic evaluation
+- Detect reliability anomalies and drift
+- Visualize trust metrics and risk trends
+- Auto-generate compliance reports (PDF)
+
+---
+> ReliantAI is designed for regulated and high-stakes industries such as
+> finance, insurance, healthcare, and enterprise AI platforms.
+
 
 ## How TrustLayer Evaluates AI Reliability
 
