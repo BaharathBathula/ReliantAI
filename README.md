@@ -55,11 +55,17 @@ Trust Scoring Audit Logs
 |
 Dashboards & Compliance Reports
 
+## LLM-as-Judge (Live Mode)
+
+This project supports a live LLM-based evaluator (OpenAI / Azure / Bedrock).
+For security reasons, live API keys are not included.
+
+To enable live mode:
+1. Create a `.env` file
+2. Add `OPENAI_API_KEY=...`
+3. Swap `llm_judge.py` with `llm_judge_openai.py`
 
 
-**MVP scope**
-
----
 
 ## MVP Scope
 
